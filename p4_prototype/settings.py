@@ -25,7 +25,16 @@ SECRET_KEY = 'django-insecure-9ika-etbk+#-u&tns)2)l!+uf!j^c3z0yoi9fb-hed2nu9lv98
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+CHANNEL_LAYERS = {
+    'default' : {
+        'BACKEND' : 'channels_redis.core.RedisChannelLayer',
+        'CONFIG' : {
+            "hosts" : [('127.0.0.1', 6379)]
+        },
+    },
+}
 
 
 # Application definition
@@ -37,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shared_easel'
+    'shared_easel',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -71,6 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'p4_prototype.wsgi.application'
+ASGI_APPLICATION = 'p4_prototype.routing.application'
 
 
 # Database
