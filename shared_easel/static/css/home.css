@@ -2,12 +2,36 @@ body {
     /* background-color: lightsalmon; */
 }
 
+.bg-img {
+    height: 100%;
+    width: 100%;
+        
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url('https://www.riddlecapecod.com/wp-content/uploads/2017/05/live-escape-game-1155620_1280.jpg');
+
+    position: relative
+}
+
 main {
+    padding-top: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    height: 80vh;
 }
 
+.title {
+    padding: 2rem 2rem 1rem 2rem;
+
+    background-color: rgba(255,255,255, 0.7);
+    border-radius: 12px;
+
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 50px;
+    border-bottom: 2px solid black;
+}

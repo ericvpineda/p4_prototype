@@ -13,35 +13,46 @@
 
 {% block body %}
 
-    <main>
+    <div class="bg-img">
+        <main>
+        
+            <div class="title">
+                <h1 class='text-center'>Choose your Character:</h1>
+            </div>
+            <p id='uid'>{{id}}</p>
 
-        <h1 class='text-center'>Add Users Page</h1>
+            <div id='error' class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Please select character and/or enter name!</h4>
+            </div>
+            
+             <form action="">
+                {% comment %} note: enter user name  {% endcomment %}
+             
+                {% comment %} note: select profile pic  {% endcomment %}
+                <ul class="profile-pic">
+                    {% for pic in profile_pics %}
+                        <li class="custom-control custom-radio image-checkbox">
+                            <input type="radio" class="custom-control-input" id="{{pic}}" name="profile-pic" value="{% static '/img/'|add:pic %}" required>
+                            <label class="custom-control-label" for="{{pic}}">
+                                <img src="{% static '/img/'|add:pic %}" alt="#" class="img-fluid">
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        <p id='uid'>{{id}}</p>
-
-         <form action="">
-
-            {% comment %} note: enter user name  {% endcomment %}
-            <label class="form-label"for="name"> Enter Name</label>
-            <input style="width: 30%" class="form-control" type="text" id='name' placeholder="Enter name">
-
-            {% comment %} note: select profile pic  {% endcomment %}
-            <ul class="profile-pic">
-                {% for pic in profile_pics %}
-                    <li class="custom-control custom-radio image-checkbox">
-                        <input type="radio" class="custom-control-input" id="{{pic}}" name="profile-pic" value="{% static '/img/'|add:pic %}">
-                        <label class="custom-control-label" for="{{pic}}">
-                            <img src="{% static '/img/'|add:pic %}" alt="#" class="img-fluid">
-                        </label>
-                    </li>
-                {% endfor %}
-            </ul>
-
-           
-
-            <button id='add-user' class="btn btn-primary">Add name!</button>
-        </form>
-    
-    </main>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label id='name-block' class="form-label"for="name"> Enter Name</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-control" type="text" id='name' placeholder="Enter name">
+                    </div>
+                </div>
+        
+                <button id='add-user' class="btn btn-primary">Add name!</button>
+            </form>
+        
+        </main>
+    </div>
 
 {% endblock body %}

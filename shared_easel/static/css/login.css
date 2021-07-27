@@ -1,8 +1,44 @@
+.bg-img {
+    height: 100%;
+    width: 100%;
+        
+    /* background-size: cover; */
+    /* background-position: 50% 50%; */
+    background-image: url('https://media.gettyimages.com/vectors/lit-wooden-background-vector-id516378717?k=6&m=516378717&s=612x612&w=0&h=yvxu5Uoha_QCGQUx6M-DLujGAl8YhpYPOnuyeWkSHl0=');
+    background-color: rgb(78,32, 9);
+    position: relative;
+    overflow-y: auto;
+
+}
+
+.header {
+    width: 40%;
+    
+    font-family: 'Comfortaa', sans-serif;
+
+    background-color:  rgba(255,255,255, 0.7);
+    border-radius: 12px;
+    padding: 2rem 1rem 1rem 1rem;
+    margin-left: 3rem;
+}
+
+main {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 #users {
     /* list-style: none; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr ;
     gap: 1.5rem;
+
+    margin-top: 2rem;
+    margin-bottom: 8rem;
 }
 
 img {
@@ -12,4 +48,15 @@ img {
 
 li {
     list-style: none;
+}
+
+.user-card {
+    text-align: center;
+
+    color: #000;
+    background-color: rgba(255,255,255, 0.6);
+
+    padding: 1.5rem;
+
+    border-radius: 12px;
 }

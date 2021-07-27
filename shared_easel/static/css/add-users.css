@@ -1,9 +1,57 @@
+.bg-img {
+    height: 100%;
+    width: 100%;
+        
+    background-size: cover;
+    /* background-position: 50% 50%; */
+    background-image: url('https://media.gettyimages.com/vectors/lit-wooden-background-vector-id516378717?k=6&m=516378717&s=612x612&w=0&h=yvxu5Uoha_QCGQUx6M-DLujGAl8YhpYPOnuyeWkSHl0=');
+    background-color: rgb(78,32, 9);
+    position: relative;
+    overflow-y: auto;
+}
+
+main {
+    font-family: 'Comfortaa', sans-serif;
+
+    padding-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+#error {
+    display: none;
+}
+
+.title, form {
+    padding: 2rem 2rem 1rem 2rem;
+
+    background-color: rgba(255,255,255, 0.7);
+    border-radius: 12px;
+
+    margin-bottom: 1rem;
+}
+
+form {
+    padding-right: 3.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    border-bottom: 2px solid black;
+}
+
+
+
 .profile-pic {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
     gap: 1.5rem;
+    margin-bottom: 2rem;
 }
-
 
 img {
     width: 100px;
@@ -12,4 +60,15 @@ img {
 
 #uid {
     display: none;
+}
+
+#name-block {
+    padding-top: 0.5rem;
+    font-size: 20px;
+
+    border-bottom: 2px solid black;
+}
+
+button {
+    margin-top: 2rem;
 }

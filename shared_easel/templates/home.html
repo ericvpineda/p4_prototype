@@ -7,16 +7,20 @@
 
 {% block body %}
 
-    <main>
-
-        <h1 class='text-center'>HOME PAGE</h1>
-
-        <button class='btn btn-primary'>Projector</button>
+    <div class="bg-img">
+        <main>
+            <div class="title">
+                <h1 class='text-center'>Escape in Time</h1>
+            </div>
+            <form action="{% url 'login' %}">
+                <button class='btn btn-primary'>Projector</button>
+            </form>
         
-        <br>
-
-        <button class='btn btn-primary'>Device</button>
-
-    </main>
+            <br>
+            <form action="{% url 'add-users' %}">
+                <button class='btn btn-primary'>Device</button>
+            </form>
+        </main>
+    </div>
 
 {% endblock body %}

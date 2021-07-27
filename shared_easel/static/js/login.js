@@ -15,7 +15,6 @@ socket.onmessage = function(msg) {
     addUserToScreen(rec.name, rec.src);
     const user = new User(rec.uid, rec.name, rec.src)
     all_users.push(user)
-    console.log(all_users)
 }
 
 socket.oneerror = function(e) {
@@ -41,7 +40,13 @@ $('#add-user').click(function (event) {
     const name = $('#name').val()
     const src = $('input[name="profile-pic"]:checked').val()
     const uid = $('#uid').text()
-    socket.send("{ \"name\" : \"" + name + "\", \"src\" : \"" + src + "\", \"uid\" : \"" + uid + "\" }");
+    if (src === undefined || name === "") {
+        $('#error').toggle()
+        $('#error').fadeOut(3000);
+    } else {
+        socket.send("{ \"name\" : \"" + name + "\", \"src\" : \"" + src + "\", \"uid\" : \"" + uid + "\" }");
+        $('#add-user').attr('disabled', 'disabled')
+    }
 })
 
 function addUserToScreen(name, src) {
@@ -49,9 +54,11 @@ function addUserToScreen(name, src) {
     const img = document.createElement('img');
     const div = document.createElement('div');
     const h3 = document.createElement('h3');
+
     h3.innerText = name;
     img.src = src;
     div.append(img, h3);
+    div.classList.add('user-card')
     li.append(div)
     $users.append(li);
 }
