@@ -6,6 +6,7 @@
 {% endblock css_files %}
 
 {% block js_files %}
+    <script src="{% static 'js/user.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
 {% endblock js_files %}
 
@@ -15,6 +16,8 @@
     <main>
 
         <h1 class='text-center'>Add Users Page</h1>
+
+        <p id='uid'>{{id}}</p>
 
          <form action="">
 
