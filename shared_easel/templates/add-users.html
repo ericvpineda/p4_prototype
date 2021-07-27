@@ -6,30 +6,38 @@
 {% endblock css_files %}
 
 {% block js_files %}
-    <script src="{% static 'js/add-users.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 {% endblock js_files %}
+
 
 {% block body %}
 
     <main>
 
-        <h1 class='text-center'>Add User Page</h1>
+        <h1 class='text-center'>Add Users Page</h1>
 
-        <ul>
-            <li>
-                <div>Jarvis</div>
-            </li>
-            <li>
-                <div>Hamilton</div>
-            </li>
-            <li>
-                <div>Jada</div>
-            </li>
-            <li>
-                <div>Rafi</div>
-            </li>
+         <form action="">
+
+            {% comment %} note: enter user name  {% endcomment %}
+            <label class="form-label"for="name"> Enter Name</label>
+            <input style="width: 30%" class="form-control" type="text" id='name' placeholder="Enter name">
+
+            {% comment %} note: select profile pic  {% endcomment %}
+            <ul class="profile-pic">
+                {% for pic in profile_pics %}
+                    <li class="custom-control custom-radio image-checkbox">
+                        <input type="radio" class="custom-control-input" id="{{pic}}" name="profile-pic" value="{% static '/img/'|add:pic %}">
+                        <label class="custom-control-label" for="{{pic}}">
+                            <img src="{% static '/img/'|add:pic %}" alt="#" class="img-fluid">
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+
            
-        </ul>
+
+            <button id='add-user' class="btn btn-primary">Add name!</button>
+        </form>
     
     </main>
 

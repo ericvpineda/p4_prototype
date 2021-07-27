@@ -1,0 +1,15 @@
+#users {
+    /* list-style: none; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    gap: 1.5rem;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+li {
+    list-style: none;
+}

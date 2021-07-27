@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock css_files %}
+
+{% block js_files %}
+    <script src="{% static 'js/login.js' %}"></script>
+{% endblock js_files %}
+
+{% block body %}
+
+    <main>
+
+        <h1 class='text-center' >Waiting for Users...</h1> 
+        <div class="" style='text-align: center'>
+            <button class='btn btn-primary' >Ready!</button>
+        </div>
+
+
+        <ul id='users'></ul>
+
+    
+    </main>
+
+{% endblock body %}
