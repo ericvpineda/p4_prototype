@@ -1,0 +1,51 @@
+
+.bg-img {
+    height: 100%;
+    width: 100%;
+        
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url('https://app.waiverelectronic.com//images/background/walls_rocks.jpg');
+
+    position: relative;
+    overflow-y: auto;
+
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title, .riddle {
+    margin-top: 2rem;
+
+    width: 40%;
+    
+    font-family: 'Comfortaa', sans-serif;
+
+    background-color:  rgba(255,255,255, 0.5);
+    border-radius: 12px;
+    padding: 2rem 1rem 1rem 1rem;
+    margin-left: 3rem;
+}
+
+.riddle {
+    font-size: 20px;
+}
+
+.attempt {
+    /* border-bottom: 2px solid black; */
+    margin-left: 3rem;
+    font-size: 50px;
+}
+
+.lock {
+    width: 40px;
+    height: 40px;
+    border-bottom: 2px solid black;
+}
+
