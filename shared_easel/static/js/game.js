@@ -1,3 +1,21 @@
+        // Things to do
+        // Drag and drop interaction with the tiles
+        // - mobile screen
+        //  - 12 tiles (jQuery draggable)
+        //          * indicator when over answer box to tell user that they can drop it there
+        //
+        //  - answer / submission box (jQuery droppable)
+        //  - box with running solution 
+        // Checking answer
+        //  * If incorrect, move tile to original spot
+        //  * else build answer on big and little screens
+        // if letter is correct, show on all screens
+        //  - show puzzle solved with lock, unlocked 
+        // write a function that builds the answer (show up on all screens)
+        // game setup given players and sockets
+        
+        // current letter 
+        var x = ?;
         // Game object structures start
         class Riddle {
             // All constructor parameters need to be strings
@@ -45,6 +63,7 @@
         var wsStart = loc === 'https:' ? 'wss://' : 'ws://'
         var endpoint = wsStart + loc.host + '/ws';
         var socket = new WebSocket(endpoint)
+        var params = Object.fromEntries(new URLSearchParams(loc.search))
         
         
         // SOCKET FUNCTIONS
@@ -107,7 +126,18 @@
         }
         
         // User interactions
-        $( ".domino" ).on( "click", function() {
+        // TODO: CHANGE TO DRAG
+        // create target area
+        $( ".domino" ).on( "click", function(event) {
+            // if not in target area
+                // tile go back to original position
+            // if yes
+                // check answer 
+            if (checkAnswer(event)){
+
+            } else {
+
+            }
             // Check answer
             // if correct do some websocket stuff
             // if incorrect, so domething? I mean idk man
@@ -115,7 +145,8 @@
         
         function checkAnswer(clicked){
             if (clicked == currentCorrectAnswer){
-                // fill in the letter in the cube
+                updateBigScreen();
+                updateSmallScreen();
                 updateCorrectAnswer();
                 return true;
             }
@@ -123,9 +154,18 @@
                 // do something like gray out the thing that they clicked
                 return false;
             }
+            socket.send("{ \"x\" : "+ event.point.x +", \"y\" : "+ event.point.y +", \"uid\" : \"" + uid + "\", \"color\" : \"" + color + "\" }");
 
             // find first blank space 
             // if the clicked domino has the same letter as the one 
+        }
+
+        function updateBigScreen(){
+            // We want to change it so that it gets filled in
+        }
+
+        function updateSmallScreen(){
+            // make correct/clicked domino disappear
         }
         
         function updateCorrectAnswer() {
