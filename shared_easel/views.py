@@ -22,3 +22,6 @@ def add_users(request):
 
 def game(request):
     return render(request, 'game.html') 
+
+def individualGameScreen(request):
+    return render(request, 'individualGameScreen.html') 
