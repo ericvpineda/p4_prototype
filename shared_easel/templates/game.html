@@ -54,7 +54,7 @@
                             ui.helper
 						        .addClass("ui-over")
 						        .addClass($(this).attr('id'))
-                                .addClass('correct');
+                                .addClass('correct')
                         } else {
                             ui.helper
 						        .addClass("ui-over")
@@ -74,7 +74,7 @@
 					drop: function( event, ui ) {
 						// dropped
                         // If this is the wrong answer, return the domino to it's original location
-                        console.log("getting here drop");
+                        
                         
                         let id = $(ui.draggable).attr('id')
                         console.log(id)
@@ -83,7 +83,7 @@
                         //let element = document.querySelector(`$(ui.draggable).attr('id') > div`)
                         //console.log(element)
                         let l = document.querySelector(queryString).textContent;
-                        let c = document.querySelector(queryString).style.background;
+                        //let c = document.querySelector(queryString).background;
                         //let correct = checkAnswer(document.querySelector(queryString).textContent)
                         if (checkAnswer(queryString)){
                             updateBigScreen();
@@ -131,18 +131,16 @@
         }
         // returns true if the answer is correct, false otherwise
         function checkAnswer(queryString){
-            console.log("getting here1")
-            let c = document.querySelector(queryString).style.background;
-            //let l = document.querySelector(queryString).textContent;
-            let l = getCorrectColor();
-            console.log("getting here2")
+            
+            let l = document.querySelector(queryString).textContent;
+            
             let ca = getCorrectAnswer();
-            console.log("getting here3")
+            
             let cc = getCorrectColor();
-            console.log("getting here4")
-            console.log("l = " + l+ ", c = "+ c);
+        
+            //console.log("l = " + l+ ", c = "+ c);
             console.log(", ca = "+ ca + ", cc = "+ cc)
-            if (l == getCorrectAnswer() && c == getCorrectColor()){
+            if (l == getCorrectAnswer() && cc == getCorrectColor()){
                 console.log("check answer is true")
             }
             else{
@@ -203,10 +201,18 @@
         .yellows{
             background-color: yellow;
         }
+        .greens {
+            background-color: rgb(117, 133, 117) ;
+        }
+        
         .ui-over.dragDomino {
 			background: grey !important;
 		}
+        .ui-over.dragDomino.correct {
+			background-color: green !important;
+		}
         
+
     </style>
 </head>
 <body>
@@ -266,7 +272,7 @@
             </div>
             <!-- #domino2 > div > p:nth-child(2)
             document.querySelector("#domino2 > div > p:nth-child(2)") -->
-            <div class="row">
+            <div class="row correct">
                 <div class="col-3 " >
                     <div class="domino reds ui-widget-content dragDomino" id="domino0">
                         <p class="top">1</p>
