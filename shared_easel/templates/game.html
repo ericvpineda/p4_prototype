@@ -8,6 +8,116 @@
     <script type="text/javascript" src="{% static 'escape/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'escape/vendor/paper/paper-full.min.js' %}"></script>
     
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+          $( ".dragDomino" ).draggable();
+        } );
+        $(function () {
+			$(".dragDomino").draggable({
+				revert : function(event, ui) {
+					// on older version of jQuery use "draggable"
+					// $(this).data("draggable")
+					// on 2.x versions of jQuery use "ui-draggable"
+					// $(this).data("ui-draggable")
+					$(this).data("ui-draggable").originalPosition = {
+						top : 0,
+						left : 0
+					};
+					// return boolean
+					return !event;
+					// that evaluate like this:
+					// return event !== false ? false : true;
+				}
+			});
+			$("#targetArea").droppable({
+				// activeClass: "active",
+				// hoverClass: "hover",
+				// // drop: function (event, ui) {
+					// // 	$("#dragbox").
+					// // }
+					classes: {
+						//"ui-droppable-active": "ui-state-active",
+						"ui-droppable-hover": "ui-state-hover"
+					},
+					accept: ".dragDomino",
+					activeClass: "ui-state-highlight",
+					over: function( event, ui ) {
+						// over droppable        
+						//console.log('over');
+						
+						ui.helper
+						.addClass("ui-over")
+						.addClass($(this).attr('id'));
+					},
+					out: function( event, ui ) {
+						// not over droppable
+						//console.log('out');
+						
+						// reset
+						ui.helper
+						.removeClass("ui-over")
+						.removeClass("dropped");
+						
+					},
+					drop: function( event, ui ) {
+						// dropped
+                        // If this is the wrong answer, return the domino to it's original location
+                        //console.log();
+                        let id = $(ui.draggable).attr('id')
+                        console.log(id)
+                        let queryString = "#" + id + " > p:nth-child(2)" 
+
+                        //let element = document.querySelector(`$(ui.draggable).attr('id') > div`)
+                        //console.log(element)
+                        console.log(document.querySelector(queryString).textContent)
+                        checkAnswer(document.querySelector(queryString).textContent);
+                        
+                        // console.log($(this).attr('id'));
+						//console.log('drop');
+						ui.helper
+						.addClass("dropped")
+						.addClass($(this).attr('id'));
+						//$(this).addClass('dropped');
+					},
+				});
+			});
+        function getCorrectAnswer(){
+            return currentCorrectAnswer;
+        }
+        function updateCorrectAnswer() {
+            // ok yes so I hard coded these values, I should not have done that but oh well
+            switch (letter) {
+                case "H":
+                    currentCorrectAnswer = "E";
+                    break;
+                case "E":
+                    currentCorrectAnswer = "A";
+                    break;
+                case "A":
+                    currentCorrectAnswer = "R";
+                    break;
+                case "R":
+                    currentCorrectAnswer = "T";
+                    break;
+                case "T":
+                    // they have won the game! 
+                    break;
+                default:
+                    break;
+            }
+        }
+        // returns true if the answer is correct, false otherwise
+        function checkAnswer(letter){
+            if (letter == getCorrectAnswer()){
+                console.log("check answer is true")
+            }
+            else{
+                console.log("check answer is false")
+            }
+            // if the document element 
+        }
+        </script>
     <!-- Styling by https://manifest.com/news-ideas/coding-primer-awesomely-responsive-text-images-->
     <!-- <style type="text/css">
         /* window dressing */
@@ -115,11 +225,19 @@
         .yellows{
             background-color: yellow;
         }
+        .ui-over.dragDomino {
+			background: red !important;
+		}
         
     </style>
 </head>
 <body>
     <div class="container-fluid">
+        <div id="countdown-container">
+            <p class="countdown-text">Game Time Remaining:</p>
+            <p>&emsp;</p>
+            <p id="countdown">0:01</p>
+        </div>
         <div id="bigScreen" class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -152,69 +270,71 @@
                     <div class="col-md-6">
                         <img alt="Padlock" src="{% static 'img/lock.jpg' %}" style="height: 50%;"/>
                     </div>
+                    
                 </div>
             </div>
         </div>
         <div id="dominosContainer">
             <div class="row">
-                <div class="col-6">
-                    <h2>
-                        Heading
-                    </h2>
-                </div>
-                <div class="col-6">
-                    <h2>
-                        Heading
-                    </h2>
+                
+                <div class="col-12" id="targetArea">
+                    <svg width="100%" height="110">
+                        <g>
+                            <rect width="100%" height="100" style="fill:rgb(255, 255, 255);stroke-width:3;stroke:rgb(0,0,0)" />
+                            <text x="50%" y="50%" font-family="Verdana" font-size="35" fill="blue">Target Area</text>
+                        </g>
+                      </svg>
                 </div>
             </div>
+            <!-- #domino2 > div > p:nth-child(2)
+            document.querySelector("#domino2 > div > p:nth-child(2)") -->
             <div class="row">
-                <div class="col-3" id="domino0">
-                    <div class="domino reds">
+                <div class="col-3 " >
+                    <div class="domino reds ui-widget-content dragDomino" id="domino0">
                         <p class="top">1</p>
                         <p>H</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino1">
-                    <div class="domino blues">
+                <div class="col-3 " id="domino1">
+                    <div class="domino blues dragDomino ui-widget-content">
                         <p class="top">2</p>
                         <p>P</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino2">
-                    <div class="domino yellows">
+                <div class="col-3 " id="domino2">
+                    <div class="domino yellows dragDomino ui-widget-content">
                         <p class="top">3</p>
                         <p>A</p>
                       </div>
                 </div>
                 <div class="col-3" id="domino3">
-                    <div class="domino">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">5</p>
                         <p>I</p>
                       </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-3" id="domino4">
-                    <div class="domino reds">
+                <div class="col-3 " id="domino4">
+                    <div class="domino reds dragDomino ui-widget-content">
                         <p class="top">3</p>
                         <p>Z</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino5">
-                    <div class="domino">
+                <div class="col-3 " id="domino5">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">6</p>
                         <p>E</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino6">
-                    <div class="domino">
+                <div class="col-3 " id="domino6">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">2</p>
                         <p>L</p>
                       </div>
                 </div>
                 <div class="col-3" id="domino7">
-                    <div class="domino">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">9</p>
                         <p class="bottom">A</p>
                       </div>
@@ -223,25 +343,25 @@
             </div>
             <div class="row">
                 <div class="col-3" id="domino8">
-                    <div class="domino reds">
+                    <div class="domino reds dragDomino ui-widget-content">
                         <p class="top">2</p>
                         <p>R</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino9">
+                <div class="col-3 dragDomino ui-widget-content" id="domino9">
                     <div class="domino">
                         <p class="top">6</p>
                         <p>T</p>
                       </div>
                 </div>
                 <div class="col-3" id="domino10">
-                    <div class="domino">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">3</p>
                         <p>G</p>
                       </div>
                 </div>
                 <div class="col-3" id="domino11">
-                    <div class="domino">
+                    <div class="domino dragDomino ui-widget-content">
                         <p class="top">8</p>
                         <p class="bottom">F</p>
                       </div>
@@ -252,13 +372,29 @@
 </body>
 
 <script>
-    // game logic
-    // PLAYER SETUP
-    //      recieve players
-    //      bring them into game
-    //   *  Set up individual screens based on number of people
-    // PLAYER INTERACTIONS
-    //      two finger swipe to submit card 
+    function countdown( elementName, minutes, seconds ) {
+		var element, endTime, hours, mins, msLeft, time;
+		function twoDigits( n ){
+			return (n <= 9 ? "0" + n : n);
+		}
+		function updateTimer(){
+			msLeft = endTime - (+new Date);
+			if ( msLeft < 1000 ) {
+				element.innerHTML = "Time is up!";
+			} else {
+				time = new Date( msLeft );
+				hours = time.getUTCHours();
+				mins = time.getUTCMinutes();
+				element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+				setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+			}
+		}
+		
+		element = document.getElementById( elementName );
+		endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+		updateTimer();
+	}
+    countdown("countdown", 600000/60000, 0);
     
 </script>
 </html>

@@ -15,7 +15,7 @@
         // game setup given players and sockets
         
         // current letter 
-        var x = ?;
+       //var x = ?;
         // Game object structures start
         class Riddle {
             // All constructor parameters need to be strings
