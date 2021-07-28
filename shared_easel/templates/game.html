@@ -10,9 +10,11 @@
     
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $( function() {
-          $( ".dragDomino" ).draggable();
-        } );
+        let currentCorrectAnswer = "H";
+        let currentCorrectColor = "red";
+        // $( function() {
+        //   $( ".dragDomino" ).draggable();
+        // } );
         $(function () {
 			$(".dragDomino").draggable({
 				revert : function(event, ui) {
@@ -44,11 +46,20 @@
 					activeClass: "ui-state-highlight",
 					over: function( event, ui ) {
 						// over droppable        
-						//console.log('over');
-						
-						ui.helper
-						.addClass("ui-over")
-						.addClass($(this).attr('id'));
+						console.log('over');
+                        let id = $(ui.draggable).attr('id')
+                        let queryString = "#" + id + " > p:nth-child(2)"  
+                        
+                        if (checkAnswer(queryString)){
+                            ui.helper
+						        .addClass("ui-over")
+						        .addClass($(this).attr('id'))
+                                .addClass('correct');
+                        } else {
+                            ui.helper
+						        .addClass("ui-over")
+						        .addClass($(this).attr('id'));
+                        }
 					},
 					out: function( event, ui ) {
 						// not over droppable
@@ -63,15 +74,22 @@
 					drop: function( event, ui ) {
 						// dropped
                         // If this is the wrong answer, return the domino to it's original location
-                        //console.log();
+                        console.log("getting here drop");
+                        
                         let id = $(ui.draggable).attr('id')
                         console.log(id)
                         let queryString = "#" + id + " > p:nth-child(2)" 
 
                         //let element = document.querySelector(`$(ui.draggable).attr('id') > div`)
                         //console.log(element)
-                        console.log(document.querySelector(queryString).textContent)
-                        checkAnswer(document.querySelector(queryString).textContent);
+                        let l = document.querySelector(queryString).textContent;
+                        let c = document.querySelector(queryString).style.background;
+                        //let correct = checkAnswer(document.querySelector(queryString).textContent)
+                        if (checkAnswer(queryString)){
+                            updateBigScreen();
+                            updateSmallScreen();
+                            updateCorrectAnswer();
+                        }
                         
                         // console.log($(this).attr('id'));
 						//console.log('drop');
@@ -107,74 +125,34 @@
                     break;
             }
         }
+        
+        function getCorrectColor(){
+            return currentCorrectColor;
+        }
         // returns true if the answer is correct, false otherwise
-        function checkAnswer(letter){
-            if (letter == getCorrectAnswer()){
+        function checkAnswer(queryString){
+            console.log("getting here1")
+            let c = document.querySelector(queryString).style.background;
+            //let l = document.querySelector(queryString).textContent;
+            let l = getCorrectColor();
+            console.log("getting here2")
+            let ca = getCorrectAnswer();
+            console.log("getting here3")
+            let cc = getCorrectColor();
+            console.log("getting here4")
+            console.log("l = " + l+ ", c = "+ c);
+            console.log(", ca = "+ ca + ", cc = "+ cc)
+            if (l == getCorrectAnswer() && c == getCorrectColor()){
                 console.log("check answer is true")
             }
             else{
+                console.log("current correct answer is " + currentCorrectAnswer) 
                 console.log("check answer is false")
             }
             // if the document element 
         }
         </script>
-    <!-- Styling by https://manifest.com/news-ideas/coding-primer-awesomely-responsive-text-images-->
-    <!-- <style type="text/css">
-        /* window dressing */
-        h1 {
-            text-align: center; 
-        }
-        .image {
-            text-align: center;
-            margin-top: 1em;
-        }
-        img {
-            max-width: 100%;
-        }
-        
-        /* The Important stuff */
-        @media (min-width: 768px) {
-            .card {
-                overflow: hidden;
-            }
-            .row.text-over-image {
-                width: 200%;
-                height: 100%;
-            }
-            .image {
-                margin-top: 0;
-                transform: translateX(-100%);
-            }
-            .text {
-                z-index: 1;
-            }
-            img {
-                height: 50%;
-                object-fit: cover;
-            }
-            
-            /* Typography etc. */
-            .text > div {
-                padding: 1em;
-                color: white;
-            }
-            .card a h2 {
-                color: white;
-            }
-            .image:before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: black;
-                opacity: 0.3;
-            }
-        }
-        
-        
-    </style> -->
+   
     <style>
         /*Universal selector*/
         * {
@@ -226,7 +204,7 @@
             background-color: yellow;
         }
         .ui-over.dragDomino {
-			background: red !important;
+			background: grey !important;
 		}
         
     </style>
@@ -295,30 +273,30 @@
                         <p>H</p>
                       </div>
                 </div>
-                <div class="col-3 " id="domino1">
-                    <div class="domino blues dragDomino ui-widget-content">
+                <div class="col-3 ">
+                    <div class="domino blues dragDomino ui-widget-content" id="domino1">
                         <p class="top">2</p>
                         <p>P</p>
                       </div>
                 </div>
-                <div class="col-3 " id="domino2">
-                    <div class="domino yellows dragDomino ui-widget-content">
+                <div class="col-3 " >
+                    <div class="domino yellows dragDomino ui-widget-content" id="domino2">
                         <p class="top">3</p>
                         <p>A</p>
                       </div>
                 </div>
-                <div class="col-3" id="domino3">
-                    <div class="domino dragDomino ui-widget-content">
+                <div class="col-3">
+                    <div class="domino dragDomino ui-widget-content"  id="domino3">
                         <p class="top">5</p>
                         <p>I</p>
                       </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-3 " id="domino4">
-                    <div class="domino reds dragDomino ui-widget-content">
+                <div class="col-3 ">
+                    <div class="domino reds dragDomino ui-widget-content"  id="domino4">
                         <p class="top">3</p>
-                        <p>Z</p>
+                        <p>E</p>
                       </div>
                 </div>
                 <div class="col-3 " id="domino5">
