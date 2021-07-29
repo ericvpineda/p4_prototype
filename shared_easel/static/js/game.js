@@ -162,9 +162,9 @@
     socket.onmessage = function(msg) {
         var rec = JSON.parse(msg.data);
         // console.log("ALL_USERS", rec[0].name)
-        if (rec[0] !== null) {
-            console.log('NAME =', rec[0].name)
-        }
+        // if (rec[0] !== null) {
+        //     console.log('NAME =', rec[0].name)
+        // }
 
         if (rec.letter + " " === solutions[curr_riddle][index]) {
             addCharToScreen(rec.letter + " ", index)

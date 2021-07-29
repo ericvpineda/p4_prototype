@@ -20,15 +20,14 @@ socket.onopen = function (e) {
 
 socket.onmessage = function(msg) {
     var rec = JSON.parse(msg.data);
-    console.log(rec.)
     if (rec.ready) {
         if (location.href.indexOf("login") > -1) {
             location.href = "/game";
             // console.log('SENDINGS TO LOGIN')
         } else {
             // console.log('SENDING TO MOBILE')
-            socket.send(JSON.stringify(all_users));
             location.href = "/individualGameScreen";
+            socket.send(JSON.stringify(all_users));
         }
     } else {
         addUserToScreen(rec.name, rec.src);
