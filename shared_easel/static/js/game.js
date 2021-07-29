@@ -98,6 +98,10 @@
         $levelBox.children().each(function (curr_index) {
             if (curr_index == curr_riddle - 1) {
                 $(this).empty()
+                $(this).append(`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="lock bi bi-unlock-fill" viewBox="0 0 16 16">
+                <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+              </svg>`)
+                console.log($(this))
             }
         })
     }
@@ -105,12 +109,13 @@
     // TIMER 
     const $time_display = $('#time-display')
     var setTime = 5 * 60;
+    var timing_fxn;
     timer(setTime)
 
     function timer(duration) {
         var timer = duration;
         var min, sec;
-        var timing_fxn = setInterval(() => {
+        timing_fxn = setInterval(() => {
             min = parseInt(timer / 60, 10);
             sec = parseInt(timer % 60, 10);
 
@@ -134,8 +139,11 @@
             index = -1;
             curr_riddle += 1
             console.log('ADD NEW RIDDLE ')
+
+            // GAME COMPLETE
             if (curr_riddle === riddles.length) {
-                $levelBox.children().each(function () { $(this).empty() })
+                unlockLevel()
+                clearInterval(timing_fxn)
                 $('.gamecomplete').removeClass('gamecomplete').addClass('gamecomplete-on')
             } else {
                 addRiddle()

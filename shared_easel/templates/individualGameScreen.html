@@ -3,35 +3,36 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Escape in Time</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
     <link rel="stylesheet" href="{% static 'css/individualGameScreen.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'escape/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <script type="text/javascript" src="{% static 'escape/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  
     <script src="{% static 'js/game.js' %}"></script>
+
+    {% comment %} fonts {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
     <script>
-        let currentCorrectAnswer = "H";
-        let currentCorrectColor = "red";
-        // $( function() {
-        //   $( ".dragDomino" ).draggable();
-        // } );
+
+        
+
         $(function () {
 			$(".dragDomino").draggable({
 				revert : function(event, ui) {
-					// on older version of jQuery use "draggable"
-					// $(this).data("draggable")
-					// on 2.x versions of jQuery use "ui-draggable"
-					// $(this).data("ui-draggable")
+
 					$(this).data("ui-draggable").originalPosition = {
 						top : 0,
 						left : 0
 					};
-					// return boolean
 					return !event;
-					// that evaluate like this:
-					// return event !== false ? false : true;
 				}
-			});
+			})
             
 			$("#targetArea").droppable({
 					classes: {
@@ -41,235 +42,115 @@
                     // NOTE: DRAGS DOMINOS BACK 
 					accept: ".dragDomino",
 					activeClass: "ui-state-highlight",
-					over: function( event, ui ) {
-						// over droppable        
-						// console.log('over');
-                      
-
+					drop: function( event, ui ) {
+                        
                         // $(this).css('background-color', 'blue')
                         let id = $(ui.draggable).attr('id')
                         let queryString = "#" + id + " > p:nth-child(2)" 
 
-                        //let element = document.querySelector(`$(ui.draggable).attr('id') > div`)
-                        //console.log(element)
-                        let l = document.querySelector(queryString).textContent;
-                        // console.log('LETTER SEND =', l)
-                        socket.send("{ \"letter\" : \"" + l + "\" }");
-
-                        //let c = document.querySelector(queryString).background;
-                        //let correct = checkAnswer(document.querySelector(queryString).textContent)
-                        if (checkAnswer(queryString)){
-                            updateBigScreen();
-                            updateSmallScreen();
-                            updateCorrectAnswer();
-                        }
+                        let letter = document.querySelector(queryString).textContent;
+                        socket.send("{ \"letter\" : \"" + letter + "\" }");
                         
-                        // console.log($(this).attr('id'));
-						//console.log('drop');
-						ui.helper
-						.addClass("dropped")
-						.addClass($(this).attr('id'));
-						//$(this).addClass('dropped');
-
-					},
-					out: function( event, ui ) {
-						// not over droppable
-						//console.log('out');
-						
-						// reset
-						ui.helper
-						.removeClass("ui-over")
-						.removeClass("dropped");
-                        
-                        // $(this).css('background-color', 'blue')
-						
-					},
-					
+					}
 				});
 			});
 
-        function getCorrectAnswer(){
-            return currentCorrectAnswer;
-        }
-        
-        function updateCorrectAnswer() {
-            // ok yes so I hard coded these values, I should not have done that but oh well
-            switch (letter) {
-                case "H":
-                    currentCorrectAnswer = "E";
-                    break;
-                case "E":
-                    currentCorrectAnswer = "A";
-                    break;
-                case "A":
-                    currentCorrectAnswer = "R";
-                    break;
-                case "R":
-                    currentCorrectAnswer = "T";
-                    break;
-                case "T":
-                    // they have won the game! 
-                    break;
-                default:
-                    break;
-            }
-        }
-        
-        function getCorrectColor(){
-            return currentCorrectColor;
-        }
-        // returns true if the answer is correct, false otherwise
-        function checkAnswer(queryString){
-            
-            let l = document.querySelector(queryString).textContent;
-            
-            let ca = getCorrectAnswer();
-            
-            let cc = getCorrectColor();
-          
-        }
         </script>
     
 </head>
 <body>
-    <div class="container-fluid">
-      
-        
-        <div id="dominosContainer">
-            <div id="targetArea" class="targetArea">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Escape in Time</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
                 
-                <h1>Target Area</h1>
-                {% comment %} <div class="col-12" id="targetArea"> {% endcomment %}
-                    
-                    {% comment %} <svg width="100%" height="110">
-                        <g>
-                            <rect width="100%" height="100" style="fill:rgb(255, 255, 255);stroke-width:3;stroke:rgb(0,0,0)" />
-                            <text x="50%" y="50%" font-family="Verdana" font-size="35" fill="blue">Target Area</text>
-                        </g>
-                    </svg> {% endcomment %}
-
-                {% comment %} </div> {% endcomment %}
-            </div>
-            <!-- #domino2 > div > p:nth-child(2)
-            document.querySelector("#domino2 > div > p:nth-child(2)") -->
-
-            {% comment %} ROW 1  {% endcomment %}
-
-            <div class="row correct">
-                <div class="col-3 " >
-                    <div class="domino ui-widget-content dragDomino" id="domino0">
-                        <p class="top">1</p>
-                        <p>H</p>
-                      </div>
-                </div>
-                <div class="col-3 ">
-                    <div class="domino blues dragDomino ui-widget-content" id="domino1">
-                        <p class="top">2</p>
-                        <p>P</p>
-                      </div>
-                </div>
-                <div class="col-3 " >
-                    <div class="domino yellows dragDomino ui-widget-content" id="domino2">
-                        <p class="top">3</p>
-                        <p>A</p>
-                      </div>
-                </div>
-                <div class="col-3">
-                    <div class="domino dragDomino ui-widget-content"  id="domino3">
-                        <p class="top">5</p>
-                        <p>I</p>
-                      </div>
-                </div>
                 
+            </ul>
+            
             </div>
+        </div>
+    </nav>
+    
+    <div class="bg-img">
+        <main>
+            <div id="dominosContainer">
 
-            {% comment %} ROW 2  {% endcomment %}
+                <div id="targetArea" class="targetArea mb-3">
+            
+                    <h1 class='title-text'>DROP HERE & DRAG OUT</h1>
 
-            <div class="row">
-                <div class="col-3 ">
-                    <div class="domino reds dragDomino ui-widget-content"  id="domino4">
-                        <p class="top">3</p>
-                        <p>E</p>
-                      </div>
                 </div>
-                <div class="col-3 " >
-                    <div class="domino dragDomino ui-widget-content" id="domino5">
-                        <p class="top">6</p>
-                        <p>E</p>
-                      </div>
-                </div>
-                <div class="col-3 " >
-                    <div class="domino dragDomino ui-widget-content" id="domino6">
-                        <p class="top">2</p>
-                        <p>L</p>
-                      </div>
-                </div>
-                <div class="col-3" >
-                    <div class="domino dragDomino ui-widget-content" id="domino7">
-                        <p class="top">9</p>
-                        <p class="bottom">A</p>
-                      </div>
-                </div>
-            </div>
 
-            {% comment %} ROW 3  {% endcomment %}
+                {% comment %} ROW 1  {% endcomment %}
+                <div class="domino-container">
 
-             <div class="row">
-                <div class="col-3" >
-                    <div class="domino reds dragDomino ui-widget-content" id="domino8">
-                        <p class="top">2</p>
-                        <p>R</p>
-                      </div>
-                </div>
-                <div class="col-3 ">
-                    <div class="domino dragDomino ui-widget-content" id="domino9">
-                        <p class="top">6</p>
-                        <p>T</p>
-                      </div>
-                </div>
-                <div class="col-3" >
-                    <div class="domino dragDomino ui-widget-content" id="domino10">
-                        <p class="top">3</p>
-                        <p>G</p>
-                      </div>
-                </div>
-                <div class="col-3" >
-                    <div class="domino dragDomino ui-widget-content" id="domino11">
-                        <p class="top">8</p>
-                        <p class="bottom">E</p>
-                      </div>
-                </div>
-            </div>
+                    {% for d in range %}
+                        <div class="col-3">
+                            {% if num|get_item:d|divisibleby:4 %}
+                                <div class="domino reds ui-widget-content dragDomino" id="domino{{d}}">
+                                    <p class="top">{{num|get_item:d}}</p>
+                                    {% if num|get_item:d|divisibleby:2 %}
+                                        <p><span class='circle'>{{letter|get_item:d}}</span></p>
+                                    {% else %}
+                                        <p><span>{{letter|get_item:d}}</span></p>
+                                    {% endif %}
+                                </div>
+                            {% elif num|get_item:d|divisibleby:5%}
+                                <div class="domino blues ui-widget-content dragDomino" id="domino{{d}}">
+                                    <p class="top">{{num|get_item:d}}</p>
+                                    {% if num|get_item:d|divisibleby:2 %}
+                                        <p><span class='circle'>{{letter|get_item:d}}</span></p>
+                                    {% else %}
+                                        <p><span>{{letter|get_item:d}}</span></p>
+                                    {% endif %}
+                                </div>
+                            {% elif num|get_item:d|divisibleby:6%}
+                                <div class="domino yellows ui-widget-content dragDomino" id="domino{{d}}">
+                                    <p class="top">{{num|get_item:d}}</p>
+                                    {% if num|get_item:d|divisibleby:2 %}
+                                        <p><span class='circle'>{{letter|get_item:d}}</span></p>
+                                    {% else %}
+                                        <p><span>{{letter|get_item:d}}</span></p>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="domino ui-widget-content dragDomino" id="domino{{d}}">
+                                    <p class="top">{{num|get_item:d}}</p>
+                                    {% if num|get_item:d|divisibleby:2 %}
+                                        <p><span class='circle'>{{letter|get_item:d}}</span></p>
+                                    {% else %}
+                                        <p><span>{{letter|get_item:d}}</span></p>
+                                    {% endif %}
+                                </div>
 
-            {% comment %} ROW 4  {% endcomment %}
-             <div class="row">
-                <div class="col-3" >
-                    <div class="domino reds dragDomino ui-widget-content" id="domino12">
-                        <p class="top">2</p>
-                        <p>B</p>
-                      </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                        
+                        
                 </div>
-                <div class="col-3 dragDomino ui-widget-content" id="domino13" >
-                    <div class="domino">
-                        <p class="top">6</p>
-                        <p>G</p>
-                      </div>
-                </div>
-                <div class="col-3"  >
-                    <div class="domino dragDomino ui-widget-content" id="domino14">
-                        <p class="top">3</p>
-                        <p>R</p>
-                      </div>
-                </div>
-                <div class="col-3" >
-                    <div class="domino dragDomino ui-widget-content" id="domino15">
-                        <p class="top">8</p>
-                        <p class="bottom">E</p>
-                      </div>
-                </div>
-            </div>
+        </main>
         
     </div>
+
+     <footer class='footer bg-dark pb-3 pt-3 sticky'>
+        <div class="container-fluid text-muted">
+            <span>&copy;Eric & Erin 2021</span>
+        </div>
+    </footer>
+
+    {% comment %} js files  {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+
 </body>
 
 

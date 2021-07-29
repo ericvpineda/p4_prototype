@@ -12,9 +12,17 @@ socket.onopen = function (e) {
 
 socket.onmessage = function(msg) {
     var rec = JSON.parse(msg.data);
-    addUserToScreen(rec.name, rec.src);
-    const user = new User(rec.uid, rec.name, rec.src)
-    all_users.push(user)
+    if (rec.ready) {
+        if (location.href.slice(-6) === "login?") {
+            location.href = "/game";
+        } else {
+            location.href = "/individualGameScreen";
+        }
+    } else {
+        addUserToScreen(rec.name, rec.src);
+        const user = new User(rec.uid, rec.name, rec.src)
+        all_users.push(user)
+    }
 }
 
 socket.oneerror = function(e) {
@@ -47,6 +55,11 @@ $('#add-user').click(function (event) {
         socket.send("{ \"name\" : \"" + name + "\", \"src\" : \"" + src + "\", \"uid\" : \"" + uid + "\" }");
         $('#add-user').attr('disabled', 'disabled')
     }
+})
+
+$('#ready').click(function (event) {
+    event.preventDefault();
+    socket.send("{ \"ready\" : \"" + true + "\"}");
 })
 
 function addUserToScreen(name, src) {
