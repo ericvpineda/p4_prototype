@@ -1,0 +1,105 @@
+.bg-img {
+    height: 100%;
+    width: 100%;
+        
+    background-size: cover;
+    /* background-position: 50% 50%; */
+    background-image: url('https://wallpaperchat.com/walls/full/a/f/8/2026566.jpg');
+
+    position: relative;
+    overflow-y: auto;
+
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 2rem;
+}
+
+.title {
+    width: 40%;
+    
+    font-family: 'Comfortaa', sans-serif;
+
+    background-color:  rgba(255,255,255, 0.5);
+    border-radius: 12px;
+    padding: 2rem 1rem 1rem 1rem;
+    margin-left: 3rem;
+}
+
+
+/* ERIN STYLE  */
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.targetArea {
+    width: 100%;
+    height: 5rem;
+
+    border: 2px solid black;
+
+    text-align: center;
+    background-color: lightcoral;
+}
+
+/*Class selector*/
+.domino {
+    display: inline-block;
+    height: 100px;
+    width: 40px;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid black;
+    border-radius: 5px;
+    position: relative;
+}
+
+/*CSS speudo element, to style a specific part of the element*/
+.domino::after {
+    /* Ligne de séparation centrale */
+    content: "";
+    background-color: black;
+    height: 1px;
+    width: 32px;
+    position: absolute;
+    top: 50px;
+    left: 4px;
+}
+
+/*Class + element*/
+.domino p {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reds{
+    background-color: red;
+}
+
+.blues{
+    background-color: blue;
+}
+
+.yellows{
+    background-color: yellow;
+}
+.greens {
+    background-color: rgb(117, 133, 117) ;
+}
+
+.ui-over.dragDomino {
+    background: grey !important;
+}
+.ui-over.dragDomino.correct {
+    background-color: green !important;
+}

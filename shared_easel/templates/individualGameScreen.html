@@ -1,45 +1,276 @@
-{% extends 'base.html' %}
 {% load static %}
-
-{% block css_files %}
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Escape in Time</title>
+    
+    <link rel="stylesheet" href="{% static 'css/individualGameScreen.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'escape/vendor/bootstrap/css/bootstrap.min.css' %}">
     <script type="text/javascript" src="{% static 'escape/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
-{% endblock css_files %}
-
-{% block js_files %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{% static 'js/game.js' %}"></script>
-{% endblock js_files %}
+    <script>
+        let currentCorrectAnswer = "H";
+        let currentCorrectColor = "red";
+        // $( function() {
+        //   $( ".dragDomino" ).draggable();
+        // } );
+        $(function () {
+			$(".dragDomino").draggable({
+				revert : function(event, ui) {
+					// on older version of jQuery use "draggable"
+					// $(this).data("draggable")
+					// on 2.x versions of jQuery use "ui-draggable"
+					// $(this).data("ui-draggable")
+					$(this).data("ui-draggable").originalPosition = {
+						top : 0,
+						left : 0
+					};
+					// return boolean
+					return !event;
+					// that evaluate like this:
+					// return event !== false ? false : true;
+				}
+			});
+            
+			$("#targetArea").droppable({
+					classes: {
+						"ui-droppable-hover": "ui-state-hover"
+					},
+                    
+                    // NOTE: DRAGS DOMINOS BACK 
+					accept: ".dragDomino",
+					activeClass: "ui-state-highlight",
+					over: function( event, ui ) {
+						// over droppable        
+						// console.log('over');
+                      
 
+                        // $(this).css('background-color', 'blue')
+                        let id = $(ui.draggable).attr('id')
+                        let queryString = "#" + id + " > p:nth-child(2)" 
 
-{% block body %}
+                        //let element = document.querySelector(`$(ui.draggable).attr('id') > div`)
+                        //console.log(element)
+                        let l = document.querySelector(queryString).textContent;
+                        // console.log('LETTER SEND =', l)
+                        socket.send("{ \"letter\" : \"" + l + "\" }");
 
-    <h1 class='text-center'>Mobile Screen Page</h1>
+                        //let c = document.querySelector(queryString).background;
+                        //let correct = checkAnswer(document.querySelector(queryString).textContent)
+                        if (checkAnswer(queryString)){
+                            updateBigScreen();
+                            updateSmallScreen();
+                            updateCorrectAnswer();
+                        }
+                        
+                        // console.log($(this).attr('id'));
+						//console.log('drop');
+						ui.helper
+						.addClass("dropped")
+						.addClass($(this).attr('id'));
+						//$(this).addClass('dropped');
 
-    <div id="attempt" class="attempt text-center">
+					},
+					out: function( event, ui ) {
+						// not over droppable
+						//console.log('out');
+						
+						// reset
+						ui.helper
+						.removeClass("ui-over")
+						.removeClass("dropped");
+                        
+                        // $(this).css('background-color', 'blue')
+						
+					},
+					
+				});
+			});
 
-    </div>
+        function getCorrectAnswer(){
+            return currentCorrectAnswer;
+        }
+        
+        function updateCorrectAnswer() {
+            // ok yes so I hard coded these values, I should not have done that but oh well
+            switch (letter) {
+                case "H":
+                    currentCorrectAnswer = "E";
+                    break;
+                case "E":
+                    currentCorrectAnswer = "A";
+                    break;
+                case "A":
+                    currentCorrectAnswer = "R";
+                    break;
+                case "R":
+                    currentCorrectAnswer = "T";
+                    break;
+                case "T":
+                    // they have won the game! 
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        function getCorrectColor(){
+            return currentCorrectColor;
+        }
+        // returns true if the answer is correct, false otherwise
+        function checkAnswer(queryString){
+            
+            let l = document.querySelector(queryString).textContent;
+            
+            let ca = getCorrectAnswer();
+            
+            let cc = getCorrectColor();
+          
+        }
+        </script>
+    
+</head>
+<body>
+    <div class="container-fluid">
+      
+        
+        <div id="dominosContainer">
+            <div id="targetArea" class="targetArea">
+                
+                <h1>Target Area</h1>
+                {% comment %} <div class="col-12" id="targetArea"> {% endcomment %}
+                    
+                    {% comment %} <svg width="100%" height="110">
+                        <g>
+                            <rect width="100%" height="100" style="fill:rgb(255, 255, 255);stroke-width:3;stroke:rgb(0,0,0)" />
+                            <text x="50%" y="50%" font-family="Verdana" font-size="35" fill="blue">Target Area</text>
+                        </g>
+                    </svg> {% endcomment %}
 
-{% endblock body %}
-   
+                {% comment %} </div> {% endcomment %}
+            </div>
+            <!-- #domino2 > div > p:nth-child(2)
+            document.querySelector("#domino2 > div > p:nth-child(2)") -->
 
+            {% comment %} ROW 1  {% endcomment %}
 
+            <div class="row correct">
+                <div class="col-3 " >
+                    <div class="domino ui-widget-content dragDomino" id="domino0">
+                        <p class="top">1</p>
+                        <p>H</p>
+                      </div>
+                </div>
+                <div class="col-3 ">
+                    <div class="domino blues dragDomino ui-widget-content" id="domino1">
+                        <p class="top">2</p>
+                        <p>P</p>
+                      </div>
+                </div>
+                <div class="col-3 " >
+                    <div class="domino yellows dragDomino ui-widget-content" id="domino2">
+                        <p class="top">3</p>
+                        <p>A</p>
+                      </div>
+                </div>
+                <div class="col-3">
+                    <div class="domino dragDomino ui-widget-content"  id="domino3">
+                        <p class="top">5</p>
+                        <p>I</p>
+                      </div>
+                </div>
+                
+            </div>
 
+            {% comment %} ROW 2  {% endcomment %}
 
+            <div class="row">
+                <div class="col-3 ">
+                    <div class="domino reds dragDomino ui-widget-content"  id="domino4">
+                        <p class="top">3</p>
+                        <p>E</p>
+                      </div>
+                </div>
+                <div class="col-3 " >
+                    <div class="domino dragDomino ui-widget-content" id="domino5">
+                        <p class="top">6</p>
+                        <p>E</p>
+                      </div>
+                </div>
+                <div class="col-3 " >
+                    <div class="domino dragDomino ui-widget-content" id="domino6">
+                        <p class="top">2</p>
+                        <p>L</p>
+                      </div>
+                </div>
+                <div class="col-3" >
+                    <div class="domino dragDomino ui-widget-content" id="domino7">
+                        <p class="top">9</p>
+                        <p class="bottom">A</p>
+                      </div>
+                </div>
+            </div>
 
+            {% comment %} ROW 3  {% endcomment %}
 
+             <div class="row">
+                <div class="col-3" >
+                    <div class="domino reds dragDomino ui-widget-content" id="domino8">
+                        <p class="top">2</p>
+                        <p>R</p>
+                      </div>
+                </div>
+                <div class="col-3 ">
+                    <div class="domino dragDomino ui-widget-content" id="domino9">
+                        <p class="top">6</p>
+                        <p>T</p>
+                      </div>
+                </div>
+                <div class="col-3" >
+                    <div class="domino dragDomino ui-widget-content" id="domino10">
+                        <p class="top">3</p>
+                        <p>G</p>
+                      </div>
+                </div>
+                <div class="col-3" >
+                    <div class="domino dragDomino ui-widget-content" id="domino11">
+                        <p class="top">8</p>
+                        <p class="bottom">E</p>
+                      </div>
+                </div>
+            </div>
 
-
-
-
-
-<!-- <div class="tile" ng-repeat="tile in tiles | orderBy:'bottom.id'" ng-click="selectTile(tile)">
-    <div class="top segment" ng-class="tile.top._class">
+            {% comment %} ROW 4  {% endcomment %}
+             <div class="row">
+                <div class="col-3" >
+                    <div class="domino reds dragDomino ui-widget-content" id="domino12">
+                        <p class="top">2</p>
+                        <p>B</p>
+                      </div>
+                </div>
+                <div class="col-3 dragDomino ui-widget-content" id="domino13" >
+                    <div class="domino">
+                        <p class="top">6</p>
+                        <p>G</p>
+                      </div>
+                </div>
+                <div class="col-3"  >
+                    <div class="domino dragDomino ui-widget-content" id="domino14">
+                        <p class="top">3</p>
+                        <p>R</p>
+                      </div>
+                </div>
+                <div class="col-3" >
+                    <div class="domino dragDomino ui-widget-content" id="domino15">
+                        <p class="top">8</p>
+                        <p class="bottom">E</p>
+                      </div>
+                </div>
+            </div>
         
     </div>
-    <div class="middle segment" ng-class="tile.bottom._class">
-        
-    </div>
-    <div class="bottom segment" ng-class="tile.bottom._class">
-        
-    </div>
-</div> -->
+</body>
+
+
+</html>

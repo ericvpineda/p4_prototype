@@ -4,7 +4,7 @@
     width: 100%;
         
     background-size: cover;
-    background-position: 50% 50%;
+    /* background-position: 50% 50%; */
     background-image: url('https://app.waiverelectronic.com//images/background/walls_rocks.jpg');
 
     position: relative;
@@ -18,10 +18,20 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    margin-top: 4rem;
 }
 
+.level {
+    margin-top: 3rem;
+    margin-left: 3rem;
+    margin-bottom: -2rem;
+}
+
+
+
 .title, .riddle {
-    margin-top: 2rem;
+    margin-top: 5rem;
 
     width: 40%;
     
@@ -33,19 +43,61 @@ main {
     margin-left: 3rem;
 }
 
+h2 {
+    font-size: 40px;
+}
+
 .riddle {
     font-size: 20px;
 }
 
 .attempt {
     /* border-bottom: 2px solid black; */
-    margin-left: 3rem;
+    margin: 3rem 0 3rem 3rem;
     font-size: 50px;
+}
+
+.attempt > span {
+    border-bottom: 2px solid black;
 }
 
 .lock {
     width: 40px;
     height: 40px;
-    border-bottom: 2px solid black;
 }
 
+#time-display {
+    font-size: 30px;
+}
+
+.gameover, .gamecomplete {
+    display: none;
+}
+
+.gameover-on, .gamecomplete-on {
+    width: 25rem;
+    height: 25rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.inner-text {
+    text-align: center;
+}
+
+.gameover-title {
+    font-size: 50px;
+}
+
+.gameover-text {
+    font-size: 25px;
+}
