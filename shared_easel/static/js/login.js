@@ -3,6 +3,14 @@ var wsStart = loc === 'https:' ? 'wss://' : 'ws://'
 var endpoint = wsStart + loc.host + '/ws';
 var socket = new WebSocket(endpoint)
 
+class User {
+
+    constructor(uid, name, img) {
+        this.uid = uid;
+        this.name = name;
+        this.img = img;
+    }
+}
 
 // SOCKET FUNCTIONS
 
@@ -12,10 +20,14 @@ socket.onopen = function (e) {
 
 socket.onmessage = function(msg) {
     var rec = JSON.parse(msg.data);
+    console.log(rec.)
     if (rec.ready) {
-        if (location.href.slice(-6) === "login?") {
+        if (location.href.indexOf("login") > -1) {
             location.href = "/game";
+            // console.log('SENDINGS TO LOGIN')
         } else {
+            // console.log('SENDING TO MOBILE')
+            socket.send(JSON.stringify(all_users));
             location.href = "/individualGameScreen";
         }
     } else {
@@ -63,15 +75,19 @@ $('#ready').click(function (event) {
 })
 
 function addUserToScreen(name, src) {
-    const li = document.createElement('li');
-    const img = document.createElement('img');
-    const div = document.createElement('div');
-    const h3 = document.createElement('h3');
 
-    h3.innerText = name;
-    img.src = src;
-    div.append(img, h3);
-    div.classList.add('user-card')
-    li.append(div)
-    $users.append(li);
+    if (name !== undefined && src !== undefined) {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        const div = document.createElement('div');
+        const h3 = document.createElement('h3');
+    
+        h3.innerText = name;
+        img.src = src;
+        div.append(img, h3);
+        div.classList.add('user-card')
+        li.append(div)
+        $users.append(li);
+    }
+   
 }
