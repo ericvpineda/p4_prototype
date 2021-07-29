@@ -25,7 +25,7 @@
                 <h4 class="alert-heading">Please select character and/or enter name!</h4>
             </div>
             
-             <form action="">
+             <form id='character' action="">
                 {% comment %} note: enter user name  {% endcomment %}
              
                 {% comment %} note: select profile pic  {% endcomment %}
@@ -49,8 +49,14 @@
                     </div>
                 </div>
         
-                <button id='add-user' class="btn btn-primary">Add name!</button>
+                <button id='add-user' class="btn btn-primary">Add name!</button>                
             </form>
+
+            <form action="{% url 'individualGameScreen' %}">
+                <button class='btn btn-success text-center'>Start Game</button>
+            </form>
+
+           
         
         </main>
     </div>

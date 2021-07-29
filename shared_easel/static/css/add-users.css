@@ -34,7 +34,7 @@ main {
     margin-bottom: 1rem;
 }
 
-form {
+#character {
     padding-right: 3.5rem;
     display: flex;
     flex-direction: column;
@@ -69,6 +69,6 @@ img {
     border-bottom: 2px solid black;
 }
 
-button {
+#add-user {
     margin-top: 2rem;
 }
