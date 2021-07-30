@@ -1,1 +1,1 @@
-web: gunicorn p4_prototype.wsgi --log-file - 
+web: gunicorn p4_prototype.wsgi --log-file=-
