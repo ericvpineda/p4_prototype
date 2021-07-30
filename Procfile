@@ -1,1 +1,3 @@
-web: gunicorn p4_prototype.wsgi --log-file=-
+web: gunicorn p4_prototype.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
