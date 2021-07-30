@@ -1,3 +1,3 @@
-web: gunicorn p4_prototype.wsgi:application --log-file - --log-level debug
+web: daphne project.asgi:application --port $PORT --bind 0.0.0.0
 python manage.py collectstatic --noinput
 manage.py migrate
