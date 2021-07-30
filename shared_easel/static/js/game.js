@@ -36,8 +36,12 @@
     let greekLetters = ["ω", "Θ", "Ξ", "ζ", "ξ", "ψ", "Φ"]
     
     var loc = window.location;
-    var wsStart = loc === 'https:' ? 'wss://' : 'ws://'
-    var endpoint = wsStart + loc.host + '/ws';
+    var wsStart = 'ws://'
+    var endpoint = wsStart + loc.host + '/ws'
+    if (loc.protocol == 'https:') {
+        wsStart = 'wss://'
+    }
+
     var socket = new WebSocket(endpoint)
     var params = Object.fromEntries(new URLSearchParams(loc.search))
     
