@@ -38,9 +38,9 @@
     var loc = window.location;
     var wsStart = 'ws://'
     var endpoint = wsStart + loc.host + loc.pathname
-    if (loc.protocol == 'https:') {
-        wsStart = 'wss://'
-    }
+    // if (loc.protocol == 'https:') {
+    //     wsStart = 'wss://'
+    // }
 
     var socket = new WebSocket(endpoint)
     var params = Object.fromEntries(new URLSearchParams(loc.search))
