@@ -163,11 +163,7 @@
     
     socket.onmessage = function(msg) {
         var rec = JSON.parse(msg.data);
-        // console.log('LETTER SENT =', rec.letter)
-        // console.log('CORRECT LETTER =', solutions[curr_riddle][index])
-        // console.log('INDEX =', index)
-        // console.log(rec.letter + " " == solutions[curr_riddle][index])
-        
+
         if (rec.letter + " " === solutions[curr_riddle][index]) {
             addCharToScreen(rec.letter + " ", index)
             updateLetter()
