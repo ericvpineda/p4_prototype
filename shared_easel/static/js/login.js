@@ -3,7 +3,7 @@ var wsStart = 'ws://'
 if (loc.protocol == 'https:') {
     wsStart = 'wss://'
 }
-var endpoint = wsStart + loc.host + '/ws'
+var endpoint = wsStart + loc.host + loc.pathname
 console.log('name= ', endpoint)
 var socket = new WebSocket(endpoint)
 
