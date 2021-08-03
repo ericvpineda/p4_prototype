@@ -41,6 +41,7 @@
         wsStart = 'wss://'
     }
     var endpoint = wsStart + loc.host + '/ws'
+    var socket = new WebSocket(endpoint)
     var params = Object.fromEntries(new URLSearchParams(loc.search))
     
     
@@ -53,7 +54,7 @@
     var index = 0;
     var curr_riddle = 0;
     var riddles = [
-        ["“What is the Cal Mascot?“"],
+        ["“What animal is the Cal mascot?“"],
         ["“What has to be broken before you use it?“"],
         ["“If you break me, I’ll not stop working. If you can touch me, my work is done. If you lose me, you must find me with a ring soon after. What am I?”"],
     ]

@@ -1,11 +1,10 @@
 var loc = window.location;
 var wsStart = 'ws://'
-var wsEnd = '/ws'
 if (loc.protocol == 'https:') {
     wsStart = 'wss://'
-    wsEnd = '/wss'
 }
-var endpoint = wsStart + loc.host + wsEnd
+var endpoint = wsStart + loc.host + '/ws'
+console.log('name= ', endpoint)
 var socket = new WebSocket(endpoint)
 
 
